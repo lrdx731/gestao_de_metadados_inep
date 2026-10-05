@@ -8,9 +8,12 @@ st.title("📊 Painel de Exploração - Microdados INEP")
 st.markdown("Interface analítica ligada diretamente ao PostgreSQL local.")
 
 # 2. Ligação à base de dados com Cache (evita reconexões constantes)
+# 2. Ligação à base de dados com Cache e Secrets
 @st.cache_resource
 def iniciar_conexao():
-    return create_engine('postgresql+psycopg2://postgres:postgres@localhost:5432/postgres')
+    # Vai buscar a URL de conexão aos segredos do Streamlit Cloud
+    db_url = st.secrets["DATABASE_URL"]
+    return create_engine(db_url)
 
 engine = iniciar_conexao()
 
